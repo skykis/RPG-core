@@ -24,17 +24,10 @@ namespace Script
         private bool isAttacking;
         private int comboCounter;
 
-        protected override void Start()
-        {
-            base.Start();
-        }
-
         protected override void Update()
         {
             base.Update();
         
-            // 移动
-            Movement();
             // 输入检测
             CheckInput();
             // 人物方向控制
@@ -90,7 +83,7 @@ namespace Script
             }
         }
 
-        private void Movement()
+        protected override void Movement()
         {
             if (isAttacking)
             {
@@ -127,8 +120,8 @@ namespace Script
             Anim.SetBool(Dict.IsAttacking, isAttacking);
             Anim.SetInteger(Dict.ComboCounter, comboCounter);
         }
-        
-        private void FlipController()
+
+        protected override void FlipController()
         {
             switch (Rb.velocity.x)
             {
