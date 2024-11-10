@@ -5,18 +5,26 @@ public class Player : MonoBehaviour
     private static readonly int IsMoving = Animator.StringToHash("isMoving");
     private static readonly int IsGrounded = Animator.StringToHash("isGrounded");
     private static readonly int YVelocity = Animator.StringToHash("yVelocity");
-    
+    private static readonly int IsDashing = Animator.StringToHash("isDashing");
+
     private Rigidbody2D rb;
     private Animator anim;
-
-    [SerializeField] private float moverSpeed;
-    [SerializeField] private float jumpForce;
-
+    
     private float xInput; // private时 其他脚本不可见不可用
     private int facingDirection = 1;
     private bool facingRight = true;
-
-    [Header("Collision info")] 
+    
+    [SerializeField] private float moverSpeed;
+    [SerializeField] private float jumpForce;
+    
+    [Header("Dash info")]
+    [SerializeField] private float dashSpeed;
+    [SerializeField] private float dashDuration;
+    [SerializeField] private float dashCooldown;
+    private float dashTime;
+    private float dashCooldownTimer;
+    
+    [Header("Collision info")]
     [SerializeField] private float groundCheckDistance;
     [SerializeField] private LayerMask whatIsGround;
     private bool isGrounded;
@@ -42,6 +50,9 @@ public class Player : MonoBehaviour
         FlipController();
         // 动画控制
         AnimatorController();
+
+        dashTime -= Time.deltaTime;
+        dashCooldownTimer -= Time.deltaTime;
     }
 
     private void CollisionChecks()
@@ -57,11 +68,32 @@ public class Player : MonoBehaviour
         {
             Jump();
         }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            DashAbility();
+        }
+    }
+
+    private void DashAbility()
+    {
+        if (dashCooldownTimer < 0)
+        {
+            dashCooldownTimer = dashCooldown;
+            dashTime = dashDuration;
+        }
     }
 
     private void Movement()
     {
-        rb.velocity = new Vector2(xInput * moverSpeed, rb.velocity.y);
+        if (dashTime > 0)
+        {
+            rb.velocity = new Vector2(xInput * dashSpeed, 0);
+        }
+        else
+        {
+            rb.velocity = new Vector2(xInput * moverSpeed, rb.velocity.y);
+        }
     }
 
     private void Jump()
@@ -77,6 +109,7 @@ public class Player : MonoBehaviour
 
         anim.SetBool(IsMoving, isMoving);
         anim.SetBool(IsGrounded, isGrounded);
+        anim.SetBool(IsDashing, dashTime > 0);
     }
 
     private void Flip()
@@ -95,11 +128,5 @@ public class Player : MonoBehaviour
                 Flip();
                 break;
         }
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawLine(transform.position,
-            new Vector3(transform.position.x, transform.position.y - groundCheckDistance));
     }
 }
