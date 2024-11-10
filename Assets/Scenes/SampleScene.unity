@@ -201,6 +201,7 @@ MonoBehaviour:
   dashSpeed: 25
   dashDuration: 0.25
   dashCooldown: 10
+  comboTime: 1
   groundCheckDistance: 1.4
   whatIsGround:
     serializedVersion: 2
@@ -237,8 +238,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.07564354, y: -0.29599738}
-  m_Size: {x: 0.78284264, y: 2.078746}
+  m_Offset: {x: -0.0705564, y: -0.29599738}
+  m_Size: {x: 0.95580435, y: 2.078746}
   m_Direction: 0
 --- !u!1 &519420028
 GameObject:
@@ -473,6 +474,7 @@ GameObject:
   - component: {fileID: 738067526}
   - component: {fileID: 738067527}
   - component: {fileID: 738067528}
+  - component: {fileID: 738067529}
   m_Layer: 0
   m_Name: Animator
   m_TagString: Untagged
@@ -568,6 +570,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &738067529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 738067525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ef25b973f14f564d94e2209e4a3bb07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2062170806
 GameObject:
   m_ObjectHideFlags: 0
